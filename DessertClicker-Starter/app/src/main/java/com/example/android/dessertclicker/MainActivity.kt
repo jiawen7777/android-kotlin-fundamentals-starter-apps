@@ -25,11 +25,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ShareCompat
 import androidx.databinding.DataBindingUtil
 import com.example.android.dessertclicker.databinding.ActivityMainBinding
+import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
 
     private var revenue = 0
     private var dessertsSold = 0
+
+    private lateinit var dessertTimer: DessertTimer
 
     // Contains all the views
     private lateinit var binding: ActivityMainBinding
@@ -46,18 +49,18 @@ class MainActivity : AppCompatActivity() {
     // Create a list of all desserts, in order of when they start being produced
     private val allDesserts = listOf(
             Dessert(R.drawable.cupcake, 5, 0),
-            Dessert(R.drawable.donut, 10, 5),
-            Dessert(R.drawable.eclair, 15, 20),
-            Dessert(R.drawable.froyo, 30, 50),
-            Dessert(R.drawable.gingerbread, 50, 100),
-            Dessert(R.drawable.honeycomb, 100, 200),
-            Dessert(R.drawable.icecreamsandwich, 500, 500),
-            Dessert(R.drawable.jellybean, 1000, 1000),
-            Dessert(R.drawable.kitkat, 2000, 2000),
-            Dessert(R.drawable.lollipop, 3000, 4000),
-            Dessert(R.drawable.marshmallow, 4000, 8000),
-            Dessert(R.drawable.nougat, 5000, 16000),
-            Dessert(R.drawable.oreo, 6000, 20000)
+            Dessert(R.drawable.donut, 10, 1),
+            Dessert(R.drawable.eclair, 15, 2),
+            Dessert(R.drawable.froyo, 30, 3),
+            Dessert(R.drawable.gingerbread, 50, 4),
+            Dessert(R.drawable.honeycomb, 100, 5),
+            Dessert(R.drawable.icecreamsandwich, 500, 6),
+            Dessert(R.drawable.jellybean, 1000, 7),
+            Dessert(R.drawable.kitkat, 2000, 8),
+            Dessert(R.drawable.lollipop, 3000, 9),
+            Dessert(R.drawable.marshmallow, 4000, 10),
+            Dessert(R.drawable.nougat, 5000, 11),
+            Dessert(R.drawable.oreo, 6000, 12)
     )
     private var currentDessert = allDesserts[0]
 
@@ -77,6 +80,9 @@ class MainActivity : AppCompatActivity() {
 
         // Make sure the correct dessert is showing
         binding.dessertButton.setImageResource(currentDessert.imageId)
+
+        dessertTimer = DessertTimer()
+        Timber.i("onCreate Called")
     }
 
     /**
@@ -144,5 +150,37 @@ class MainActivity : AppCompatActivity() {
             R.id.shareMenuButton -> onShare()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        dessertTimer.startTimer()
+        Timber.i("onStart Called")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Timber.i("onResume Called")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Timber.i("onPause Called")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        dessertTimer.stopTimer()
+        Timber.i("onStop Called")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Timber.i("onDestroy Called")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Timber.i("onRestart Called")
     }
 }
